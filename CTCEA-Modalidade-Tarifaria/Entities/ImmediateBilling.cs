@@ -1,6 +1,6 @@
-﻿namespace CTCEA_Modalidade_Tarifaria.Entities;
+﻿namespace CTCEA_Tariff_Modalities.Entities;
 
-public class CobrancaAVista : BaseEntity
+public class ImmediateBilling : BaseEntity
 {
     public required string MatriculaAeronave { get; set; }
     public required string CiaIcao { get; set; }

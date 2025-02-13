@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace CTCEA_Modalidade_Tarifaria.Models.Calculadora.DTO
+namespace CTCEA_Tariff_Modalities.Models.Calculator.DTO
 {
-    public class CalculadoraResponseDTO
+    public class CalculatorResponseDTO
     {
         [JsonPropertyName("cotacao_dolar")]
         public required string CotacaoDolar { get; set; }

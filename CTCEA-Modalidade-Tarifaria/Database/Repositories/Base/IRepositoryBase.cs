@@ -1,6 +1,6 @@
-﻿using CTCEA_Modalidade_Tarifaria.Entities;
+﻿using CTCEA_Tariff_Modalities.Entities;
 
-namespace CTCEA_Modalidade_Tarifaria.Database.Repositories.Base;
+namespace CTCEA_Tariff_Modalities.Database.Repositories.Base;
 
 public interface IRepositoryBase<TEntity> : IDisposable where TEntity : class, IBaseEntity
 {
@@ -13,6 +13,5 @@ public interface IRepositoryBase<TEntity> : IDisposable where TEntity : class, I
     void Update(TEntity entity);
 
     void Remove(TEntity entity);
-
-    void Dispose();
+    new void Dispose();
 }

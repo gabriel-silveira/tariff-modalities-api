@@ -1,10 +1,10 @@
-﻿using CTCEA_Modalidade_Tarifaria.Database.Repositories.Interfaces;
-using CTCEA_Modalidade_Tarifaria.Entities;
-using CTCEA_Modalidade_Tarifaria.Services.Interfaces;
+﻿using CTCEA_Tariff_Modalities.Database.Repositories.Interfaces;
+using CTCEA_Tariff_Modalities.Entities;
+using CTCEA_Tariff_Modalities.Services.Interfaces;
 
-namespace CTCEA_Modalidade_Tarifaria.Services
+namespace CTCEA_Tariff_Modalities.Services
 {
-    public class CompanhiaAereaSGTANService : ServiceBase<CompanhiaAerea>, ICompanhiaAereaSGTANService
+    public class CompanhiaAereaSGTANService : ServiceBase<FlightCompany>, IFlightCompanySGTANService
     {
         private readonly ICompanhiaAereaSGTANRepository _companhiaAereaSGTANRepository;
 
@@ -13,7 +13,7 @@ namespace CTCEA_Modalidade_Tarifaria.Services
             _companhiaAereaSGTANRepository = repository;
         }
 
-        public async Task<bool> ObterCompanhia(string ciaoIcao)
+        public async Task<bool> GetCompany(string ciaoIcao)
         {
             var result = await _companhiaAereaSGTANRepository.ObterCompanhia(ciaoIcao);
 

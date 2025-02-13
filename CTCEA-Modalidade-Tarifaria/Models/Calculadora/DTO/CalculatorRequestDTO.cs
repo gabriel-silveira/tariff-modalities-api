@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace CTCEA_Modalidade_Tarifaria.Models.Calculadora.DTO
+namespace CTCEA_Tariff_Modalities.Models.Calculator.DTO
 {
-    public class CalculadoraRequestDTO
+    public class CalculatorRequestDTO
     {
         [JsonPropertyName("grupo")]
         public required string Grupo { get; set; }

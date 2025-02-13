@@ -1,4 +1,4 @@
-﻿namespace CTCEA_Modalidade_Tarifaria.Services.Interfaces;
+﻿namespace CTCEA_Tariff_Modalities.Services.Interfaces;
 
 public interface IServiceBase<TEntity> : IDisposable where TEntity : class
 {

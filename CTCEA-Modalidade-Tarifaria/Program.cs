@@ -1,10 +1,9 @@
-using CTCEA_Modalidade_Tarifaria.Database.Configuration;
-using CTCEA_Modalidade_Tarifaria.Database.Repositories.Base;
-using CTCEA_Modalidade_Tarifaria.Database.Repositories.Interfaces;
-using CTCEA_Modalidade_Tarifaria.Database.Repositories;
-using CTCEA_Modalidade_Tarifaria.Repositories.Base;
-using CTCEA_Modalidade_Tarifaria.Services;
-using CTCEA_Modalidade_Tarifaria.Services.Interfaces;
+using CTCEA_Tariff_Modalities.Database.Configuration;
+using CTCEA_Tariff_Modalities.Database.Repositories.Base;
+using CTCEA_Tariff_Modalities.Database.Repositories.Interfaces;
+using CTCEA_Tariff_Modalities.Database.Repositories;
+using CTCEA_Tariff_Modalities.Services;
+using CTCEA_Tariff_Modalities.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,16 +17,16 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // services
-builder.Services.AddTransient<ICalculadoraService, CalculadoraService>();
-builder.Services.AddTransient<IClassificacaoService, ClassificacaoService>();
-builder.Services.AddTransient<ICobrancaAVistaService, CobrancaAVistaService>();
-builder.Services.AddTransient<ICompanhiaAereaSGTANService, CompanhiaAereaSGTANService>();
+builder.Services.AddTransient<ICalculatorService, CalculatorService>();
+builder.Services.AddTransient<IClassificationService, ClassificationService>();
+builder.Services.AddTransient<IImmediateBillingService, ImmediateBillingService>();
+builder.Services.AddTransient<IFlightCompanySGTANService, CompanhiaAereaSGTANService>();
 
 // base repository
 builder.Services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
 
 // repositories
-builder.Services.AddTransient<ICobrancaAVistaRepository, CobrancaAVistaRepository>();
+builder.Services.AddTransient<IImmediateBillingRepository, CobrancaAVistaRepository>();
 builder.Services.AddTransient<ICompanhiaAereaSGTANRepository, CompanhiaAereaSGTANRepository>();
 
 builder.Services.AddCors(options =>

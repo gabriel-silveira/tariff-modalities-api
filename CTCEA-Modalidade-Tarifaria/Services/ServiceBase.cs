@@ -1,8 +1,8 @@
-﻿using CTCEA_Modalidade_Tarifaria.Database.Repositories.Base;
-using CTCEA_Modalidade_Tarifaria.Services.Interfaces;
-using CTCEA_Modalidade_Tarifaria.Entities;
+﻿using CTCEA_Tariff_Modalities.Database.Repositories.Base;
+using CTCEA_Tariff_Modalities.Services.Interfaces;
+using CTCEA_Tariff_Modalities.Entities;
 
-namespace CTCEA_Modalidade_Tarifaria.Services;
+namespace CTCEA_Tariff_Modalities.Services;
 
 public class ServiceBase<TEntity> : IServiceBase<TEntity> where TEntity : class, IBaseEntity
 {

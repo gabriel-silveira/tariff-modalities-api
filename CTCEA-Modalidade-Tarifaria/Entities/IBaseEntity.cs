@@ -1,4 +1,4 @@
-﻿namespace CTCEA_Modalidade_Tarifaria.Entities;
+﻿namespace CTCEA_Tariff_Modalities.Entities;
 
 public interface IBaseEntity
 {

@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace CTCEA_Modalidade_Tarifaria.Models.CobrancaAVista.DTO
+namespace CTCEA_Tariff_Modalities.Models.ImmediateBilling.DTO
 {
-    public class EmpresaVigenteResponseDTO
+    public class CompanyInForceResponseDTO
     {
         [JsonPropertyName("cadastrada")]
         public required bool Cadastrada { get; set; }

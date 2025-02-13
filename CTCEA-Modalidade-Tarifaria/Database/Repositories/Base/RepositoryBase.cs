@@ -1,15 +1,14 @@
-﻿using CTCEA_Modalidade_Tarifaria.Entities;
-using CTCEA_Modalidade_Tarifaria.Database.Repositories.Base;
-using CTCEA_Modalidade_Tarifaria.Database.Context;
+﻿using CTCEA_Tariff_Modalities.Entities;
+using CTCEA_Tariff_Modalities.Database.Context;
 
-namespace CTCEA_Modalidade_Tarifaria.Repositories.Base;
+namespace CTCEA_Tariff_Modalities.Database.Repositories.Base;
 
 public class RepositoryBase<TEntity> : IRepositoryBase<TEntity>
     where TEntity : class, IBaseEntity
 {
-    protected readonly ModalidadeTarifariaContext _context;
+    protected readonly TariffModalitiesContext _context;
 
-    public RepositoryBase(ModalidadeTarifariaContext context)
+    public RepositoryBase(TariffModalitiesContext context)
     {
         _context = context;
     }

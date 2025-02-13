@@ -1,9 +1,8 @@
-﻿using CTCEA_Modalidade_Tarifaria.Database.Repositories;
-using CTCEA_Modalidade_Tarifaria.Database.Repositories.Base;
-using CTCEA_Modalidade_Tarifaria.Database.Repositories.Interfaces;
-using CTCEA_Modalidade_Tarifaria.Repositories.Base;
+﻿using CTCEA_Tariff_Modalities.Database.Repositories;
+using CTCEA_Tariff_Modalities.Database.Repositories.Base;
+using CTCEA_Tariff_Modalities.Database.Repositories.Interfaces;
 
-namespace CTCEA_Modalidade_Tarifaria.Database;
+namespace CTCEA_Tariff_Modalities.Database;
 
 public static class RegisterRepositories
 {
@@ -12,6 +11,6 @@ public static class RegisterRepositories
         //Repositories base
         services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
 
-        services.AddTransient<ICobrancaAVistaRepository, CobrancaAVistaRepository>();
+        services.AddTransient<IImmediateBillingRepository, CobrancaAVistaRepository>();
     }
 }

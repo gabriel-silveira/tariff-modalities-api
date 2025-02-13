@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace CTCEA_Modalidade_Tarifaria.Models.Base.DTO
+namespace CTCEA_Tariff_Modalities.Models.Base.DTO
 {
     public class ErrorResponseDTO
     {

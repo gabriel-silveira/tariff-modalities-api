@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace CTCEA_Modalidade_Tarifaria.Models.Classificacao.DTO
+namespace CTCEA_Tariff_Modalities.Models.Classificacao.DTO
 {
-    public class ClassificacaoRequestDTO
+    public class ClassificationRequestDTO
     {
         [JsonPropertyName("icao_localidade")]
         public required string IcaoLocalidade { get; set; }

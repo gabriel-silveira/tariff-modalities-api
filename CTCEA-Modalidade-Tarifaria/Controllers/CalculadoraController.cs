@@ -1,25 +1,25 @@
-﻿using CTCEA_Modalidade_Tarifaria.Models.Base.DTO;
-using CTCEA_Modalidade_Tarifaria.Models.Calculadora.DTO;
-using CTCEA_Modalidade_Tarifaria.Services.Interfaces;
+﻿using CTCEA_Tariff_Modalities.Models.Base.DTO;
+using CTCEA_Tariff_Modalities.Models.Calculator.DTO;
+using CTCEA_Tariff_Modalities.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CTCEA_Modalidade_Tarifaria.Controllers
+namespace CTCEA_Tariff_Modalities.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CalculadoraController : Controller
+    public class CalculatorController : Controller
     {
         private ErrorResponseDTO error = new ErrorResponseDTO { Message = "" };
 
-        private readonly ICalculadoraService _calculadoraService;
+        private readonly ICalculatorService _calculatorService;
 
-        public CalculadoraController(ICalculadoraService calculadoraService)
+        public CalculatorController(ICalculatorService calculadoraService)
         {
-            _calculadoraService = calculadoraService;
+            _calculatorService = calculadoraService;
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post(CalculadoraRequestDTO request)
+        public async Task<ActionResult> Post(CalculatorRequestDTO request)
         {
             if (request.Grupo == "")
                 return StatusCode(400, error.MissingField("Grupo"));
@@ -39,7 +39,7 @@ namespace CTCEA_Modalidade_Tarifaria.Controllers
             if (request.PMD == 0)
                 return StatusCode(400, error.MissingField("PMD"));
 
-            var response = await _calculadoraService.CalcularTarifas(request);
+            var response = await _calculatorService.CalcularTarifas(request);
 
             if (response.Result.ERROR != "")
                 return StatusCode(400, error.Set(response.Result.ERROR));

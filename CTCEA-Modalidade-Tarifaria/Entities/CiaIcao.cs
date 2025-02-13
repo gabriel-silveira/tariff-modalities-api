@@ -1,6 +1,6 @@
-﻿namespace CTCEA_Modalidade_Tarifaria.Entities;
+﻿namespace CTCEA_Tariff_Modalities.Entities;
 
-public class CompanhiaAerea : BaseEntity
+public class FlightCompany : BaseEntity
 {
     public required string CiaIcao { get; set; }
 }

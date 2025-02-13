@@ -1,14 +1,14 @@
-﻿using CTCEA_Modalidade_Tarifaria.Models.Base.DTO;
-using CTCEA_Modalidade_Tarifaria.Models.Classificacao.DTO;
-using CTCEA_Modalidade_Tarifaria.Services.Interfaces;
+﻿using CTCEA_Tariff_Modalities.Models.Base.DTO;
+using CTCEA_Tariff_Modalities.Models.Classificacao.DTO;
+using CTCEA_Tariff_Modalities.Services.Interfaces;
 using System.Text.RegularExpressions;
 
-namespace CTCEA_Modalidade_Tarifaria.Services
+namespace CTCEA_Tariff_Modalities.Services
 {
-    public class ClassificacaoService : IClassificacaoService
+    public class ClassificationService : IClassificationService
     {
-        private ICobrancaAVistaService _cobrancaAVistaService;
-        private ICompanhiaAereaSGTANService _companhiaAereaSGTANService;
+        private IImmediateBillingService _cobrancaAVistaService;
+        private readonly IFlightCompanySGTANService _flightCompanySGTANService;
 
         private const string A_VISTA = "À Vista";
         private const string A_POSTERIORI = "A Posteriori";
@@ -23,16 +23,16 @@ namespace CTCEA_Modalidade_Tarifaria.Services
         public string Destino = "";
         public DateTime DataDecolagem;
 
-        public ClassificacaoService(
-            ICobrancaAVistaService cobrancaAVistaService,
-            ICompanhiaAereaSGTANService companhiaAereaSGTANService
+        public ClassificationService(
+            IImmediateBillingService cobrancaAVistaService,
+            IFlightCompanySGTANService companhiaAereaSGTANService
         )
         {
             _cobrancaAVistaService = cobrancaAVistaService;
-            _companhiaAereaSGTANService = companhiaAereaSGTANService;
+            _flightCompanySGTANService = companhiaAereaSGTANService;
         }
 
-        public async Task<ResponseBaseDTO<ClassificacaoResponseDTO>> ClassificarVoo(ClassificacaoRequestDTO request)
+        public async Task<ResponseBaseDTO<ClassificationResponseDTO>> ClassifyFlight(ClassificationRequestDTO request)
         {
             IcaoLocalidade = request.IcaoLocalidade;
             Identificacao = request.Identificacao;
@@ -40,9 +40,9 @@ namespace CTCEA_Modalidade_Tarifaria.Services
             Destino = request.Destino;
             DataDecolagem = request.DataDecolagem;
 
-            var response = new ResponseBaseDTO<ClassificacaoResponseDTO>()
+            var response = new ResponseBaseDTO<ClassificationResponseDTO>()
             {
-                Result = new ClassificacaoResponseDTO()
+                Result = new ClassificationResponseDTO()
                 {
                     Grupo = "",
                     Natureza = DOMESTICO,
@@ -50,13 +50,13 @@ namespace CTCEA_Modalidade_Tarifaria.Services
                 }
             };
 
-            response.Result.Grupo = CallsignValido() ? GRUPO_1 : GRUPO_2;
+            response.Result.Grupo = ValidCallsign() ? GRUPO_1 : GRUPO_2;
 
-            string siglaIcao = GetSiglaICAO();
+            string siglaIcao = GetICAOAirpotCode();
 
             if (response.Result.Grupo == GRUPO_1)
             {
-                var empresaVigenteCobrancaAVista = _cobrancaAVistaService.EmpresaVigente(
+                var empresaVigenteCobrancaAVista = _cobrancaAVistaService.CompanyInForce(
                     siglaIcao,
                     request.IcaoLocalidade,
                     request.DataDecolagem
@@ -69,13 +69,13 @@ namespace CTCEA_Modalidade_Tarifaria.Services
                 }
                 else
                 {
-                    var pertenceAoSGTAN = await _companhiaAereaSGTANService.ObterCompanhia(siglaIcao);
+                    var belongsToSGTAN = await _flightCompanySGTANService.GetCompany(siglaIcao);
 
-                    response.Result.TipoCobranca = !pertenceAoSGTAN ? A_VISTA : A_POSTERIORI;
+                    response.Result.TipoCobranca = !belongsToSGTAN ? A_VISTA : A_POSTERIORI;
                 }
             } else if (response.Result.Grupo == GRUPO_2)
             {
-                if (MatriculaEstrangeira(siglaIcao))
+                if (ForeignRegistration(siglaIcao))
                 {
                     response.Result.Natureza = INTERNACIONAL;
 
@@ -88,7 +88,7 @@ namespace CTCEA_Modalidade_Tarifaria.Services
 
             if (response.Result.TipoCobranca == A_VISTA)
             {
-                if (temAerodromosInternacionais(Origem, Destino))
+                if (HasInternationalAirfields(Origem, Destino))
                 {
                     response.Result.Natureza = INTERNACIONAL;
                 }
@@ -102,12 +102,12 @@ namespace CTCEA_Modalidade_Tarifaria.Services
             return response;
         }
 
-        public string GetSiglaICAO()
+        public string GetICAOAirpotCode()
         {
             return Identificacao.Length < 4 ? Identificacao : Identificacao.Substring(0, 3);
         }
 
-        public bool CallsignValido()
+        public bool ValidCallsign()
         {
             if (Identificacao.Length < 4) return false;
 
@@ -115,19 +115,19 @@ namespace CTCEA_Modalidade_Tarifaria.Services
                 && Regex.IsMatch(Identificacao.Substring(3, Identificacao.Length - 3), @"^[0-9]+$");
         }
 
-        public bool MatriculaEstrangeira(string siglaIcao)
+        public bool ForeignRegistration(string icaoAirpotCode)
         {
-            var cc = siglaIcao.Substring(0, 2);
+            var cc = icaoAirpotCode.Substring(0, 2);
 
             return cc != "PT" && cc != "PP" && cc != "PR" && cc != "PU" && cc != "PS";
         }
 
-        public bool temAerodromosInternacionais(string origem, string destino)
+        public bool HasInternationalAirfields(string origin, string destination)
         {
-            var or = origem.Substring(0, 2);
-            var o = origem.Substring(0, 1);
-            var de = destino.Substring(0, 2);
-            var d = destino.Substring(0, 1);
+            var or = origin.Substring(0, 2);
+            var o = origin.Substring(0, 1);
+            var de = destination.Substring(0, 2);
+            var d = destination.Substring(0, 1);
 
             if (
                 or != "SB"

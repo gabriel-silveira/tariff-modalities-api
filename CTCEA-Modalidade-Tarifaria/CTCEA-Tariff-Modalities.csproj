@@ -4,7 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>CTCEA_Modalidade_Tarifaria</RootNamespace>
+    <RootNamespace>CTCEA_Tariff_Modalities</RootNamespace>
     <UserSecretsId>be0e0141-ee20-46ae-b9b3-a2cc80bfe1ca</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>

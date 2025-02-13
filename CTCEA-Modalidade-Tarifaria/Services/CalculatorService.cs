@@ -2,19 +2,19 @@
 using System.Text;
 using HtmlAgilityPack;
 
-using CTCEA_Modalidade_Tarifaria.Services.Interfaces;
-using CTCEA_Modalidade_Tarifaria.Models.Calculadora.DTO;
-using CTCEA_Modalidade_Tarifaria.Models.Base.DTO;
+using CTCEA_Tariff_Modalities.Services.Interfaces;
+using CTCEA_Tariff_Modalities.Models.Calculator.DTO;
+using CTCEA_Tariff_Modalities.Models.Base.DTO;
 
-namespace CTCEA_Modalidade_Tarifaria.Services
+namespace CTCEA_Tariff_Modalities.Services
 {
-    public class CalculadoraService : ICalculadoraService
+    public class CalculatorService : ICalculatorService
     {
         private readonly string _group1Url = "https://tarifas.decea.mil.br/Simuladortarifas/CalculoGrupoI/Calculo";
 
         private readonly string _group2Url = "https://tarifas.decea.mil.br/Simuladortarifas/CalculoGrupoII/Calcular";
 
-        private CalculadoraResponseDTO ResultData = new CalculadoraResponseDTO()
+        private CalculatorResponseDTO ResultData = new CalculatorResponseDTO()
         {
             CotacaoDolar = "",
             DataCotacaoDolar = "",
@@ -29,11 +29,11 @@ namespace CTCEA_Modalidade_Tarifaria.Services
             ERROR = ""
         };
 
-        public async Task<ResponseBaseDTO<CalculadoraResponseDTO>> CalcularTarifas(CalculadoraRequestDTO request)
+        public async Task<ResponseBaseDTO<CalculatorResponseDTO>> CalcularTarifas(CalculatorRequestDTO request)
         {
             HttpClient client = new HttpClient();
 
-            string url = getGroupUrl(request.Grupo);
+            string url = GetGroupUrl(request.Grupo);
 
             client.BaseAddress = new Uri(url);
 
@@ -49,25 +49,25 @@ namespace CTCEA_Modalidade_Tarifaria.Services
                 "application/json"
             );
 
-            string queryString = getQueryString(request);
+            string queryString = GetQueryString(request);
 
             var result = await client.PostAsync(queryString, jsonContent);
 
             var content = await result.Content.ReadAsStringAsync();
 
-            return new ResponseBaseDTO<CalculadoraResponseDTO>() { Result = parseResults(content) };
+            return new ResponseBaseDTO<CalculatorResponseDTO>() { Result = ParseResults(content) };
         }
 
-        private string getGroupUrl(string group)
+        private string GetGroupUrl(string group)
         {
-            return group == ClassificacaoService.GRUPO_1 ? _group1Url : _group2Url;
+            return group == ClassificationService.GRUPO_1 ? _group1Url : _group2Url;
         }
 
-        private string getQueryString(CalculadoraRequestDTO request)
+        private static string GetQueryString(CalculatorRequestDTO request)
         {
             string query = "";
 
-            if (request.Grupo == ClassificacaoService.GRUPO_1)
+            if (request.Grupo == ClassificationService.GRUPO_1)
             {
                 query += "?empresa=" + request.Natureza;
             }
@@ -83,7 +83,7 @@ namespace CTCEA_Modalidade_Tarifaria.Services
             return query;
         }
 
-        private CalculadoraResponseDTO parseResults(string results)
+        private CalculatorResponseDTO ParseResults(string results)
         {
             var htmlDoc = new HtmlDocument();
 

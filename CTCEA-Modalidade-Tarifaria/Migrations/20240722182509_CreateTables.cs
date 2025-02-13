@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace CTCEA_Modalidade_Tarifaria.Migrations
+namespace CTCEA_Tariff_Modalities.Migrations
 {
     /// <inheritdoc />
     public partial class CreateTables : Migration

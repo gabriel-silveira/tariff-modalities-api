@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CTCEA_Modalidade_Tarifaria.Entities.Mappings;
+namespace CTCEA_Tariff_Modalities.Entities.Mappings;
 
-public class CobrancaAVistaMap : IEntityTypeConfiguration<CobrancaAVista>
+public class ImmediateBillingMap : IEntityTypeConfiguration<ImmediateBilling>
 {
-    public void Configure(EntityTypeBuilder<CobrancaAVista> builder)
+    public void Configure(EntityTypeBuilder<ImmediateBilling> builder)
     {
         builder.HasKey(t => t.Id);
 
